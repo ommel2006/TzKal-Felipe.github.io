@@ -1,3 +1,5 @@
+import { Sprite } from "./sprite.js";
+
 function nearLocation(currentPos, targetPos, thresholdX = 20, thresholdY = 70){
     return (
         Math.abs(currentPos.x - targetPos.x) <= thresholdX &&
@@ -74,6 +76,10 @@ function isNearOppositeElementPond(player, collisionBlocks, thresholdX = 140, th
     return false;
 }
 
+function createCheckpoint(x, y, imgPath) {
+  return new Sprite({ position: { x, y }, imgSrc: imgPath, frameRate: 1, imgRows: 1 });
+}
+
 export { 
     nearLocation,
     moveRight,
@@ -82,5 +88,6 @@ export {
     makeJump,
     buildAudioPath,
     isNearGameObject,
-    isNearOppositeElementPond
+    isNearOppositeElementPond,
+    createCheckpoint
 };

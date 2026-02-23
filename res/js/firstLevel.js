@@ -3,7 +3,8 @@ import {
     moveRight,
     moveLeft,
     stopMoving,
-    makeJump
+    makeJump,
+    createCheckpoint
 } from "./helperFunctions.js";
 
 let audioFiles = {
@@ -40,8 +41,10 @@ export class FirstLevelManager {
         this.audioManager = audioManager;
         this.audioManager.nextAudioForTimer(audioFiles.arrow_keys);
         this.yellowLever = allLevers[0];
+        this.yellowRamp = this.yellowLever.ramp;
         this.firstPurpleButton = allButtons[0][0];
         this.secondPurpleButton = allButtons[0][1];
+        this.purpleRamp = this.secondPurpleButton.ramp;
         
         this.fireCheckpoints = {
             beforeEncloseExitFire: false,
@@ -315,7 +318,7 @@ export class FirstLevelManager {
             moveLeft(this.watergirl);
             makeJump(this.watergirl);
         }
-        if (nearLocation(this.watergirl.position, this.coordinates.beforeLeverPlatform) && this.fireCheckpoints.onLeverPlatform && this.watergirl.isOnBlock && this.yellowLever.pressed){
+        if (nearLocation(this.watergirl.position, this.coordinates.beforeLeverPlatform) && this.fireCheckpoints.onLeverPlatform && this.watergirl.isOnBlock && this.yellowRamp.position.y == this.yellowRamp.finalPosition.y){
             moveLeft(this.watergirl);
             makeJump(this.watergirl);
         }
@@ -331,7 +334,7 @@ export class FirstLevelManager {
             moveRight(this.watergirl);
             this.audioManager.playAudio(audioFiles.wait);
         }
-        if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform) && nearLocation(this.secondPurpleButton.ramp.position, this.secondPurpleButton.ramp.finalPosition)){
+        if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform) && this.purpleRamp.position.y == this.purpleRamp.finalPosition.y){
             moveRight(this.watergirl);
             makeJump(this.watergirl);
         }
@@ -372,5 +375,27 @@ export class FirstLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform) && !this.secondPurpleButton.pressed){
             this.audioManager.nextAudioForTimer(audioFiles.press_button);
         }
+    }
+
+    //returns array of all the checkpoints for fb and wg
+    get_checkpoints_to_mark_on_screen(){
+        var screen_checkpoints = []
+        // Mark fireboy and shared checkpoints
+        for (const checkpoint in this.fireCheckpoints){
+            if(checkpoint in this.coordinates){
+                if (checkpoint in this.waterCheckpoints){
+                    screen_checkpoints.push(createCheckpoint(this.coordinates[checkpoint]['x'], this.coordinates[checkpoint]['y'], './res/img/both_checkpoint.png'))
+                }else{
+                    screen_checkpoints.push(createCheckpoint(this.coordinates[checkpoint]['x'], this.coordinates[checkpoint]['y'], './res/img/fire_checkpoint.png'))
+                }
+            }
+        }
+        // Mark watergirl checkpoints and not shared
+        for (const checkpoint in this.waterCheckpoints){
+            if (checkpoint in this.coordinates && !(checkpoint in this.fireCheckpoints)){
+                screen_checkpoints.push(createCheckpoint(this.coordinates[checkpoint]['x'], this.coordinates[checkpoint]['y'], './res/img/water_checkpoint.png'))
+            }
+        }
+        return screen_checkpoints;
     }
 }

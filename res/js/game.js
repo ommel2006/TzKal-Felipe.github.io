@@ -70,6 +70,7 @@ const oneSecond = 1000;
 let audioManager = new AudioManager();
 let deltatime = new Deltatime();
 let levelManager;
+//let checkpoints_to_draw;
 
 function startGame() {
     died = false;
@@ -329,6 +330,8 @@ function startGame() {
             break;
     }
 
+    //checkpoints_to_draw = levelManager.get_checkpoints_to_mark_on_screen();
+
     audioManager.startAudioTimer();
     deltatime.start();
 
@@ -351,6 +354,7 @@ function startGame() {
 function playGame() {
     drawMenu();
 
+    
     let now;
     let delta;
     let fixedFps = 60;
@@ -461,6 +465,11 @@ function playGame() {
             // collisionBlocks.forEach((collisionBlock) => {
             //     collisionBlock.draw();
             // });
+
+            //checkpoints_to_draw.forEach((checkpoint) => {
+            //    checkpoint.draw();
+            //});
+
 
             allLevers.forEach((lever) => {
                 lever.checkAngle();
