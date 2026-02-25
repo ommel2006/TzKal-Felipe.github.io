@@ -48,6 +48,8 @@ class AudioManager {
         
         if (this.isPlaying){
             this.queue = audioSrc;
+            //this.stopAudio();
+            //this.playAudio(audioSrc);
         } else {
             this.audio.src = audioSrc;
             this.audio.load();
@@ -68,6 +70,17 @@ class AudioManager {
         }
 
         this.resetAudioTimer();
+    }
+
+    stopAudio(includeYouGotIt=false){
+        console.log(this.currentSrc + " audio stopped");
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.isPlaying = false;
+        this.currentSrc = null;
+        if (includeYouGotIt){
+            this.playAudio("you_got_it.wav");
+        }
     }
 
     startAudioTimer(){

@@ -107,7 +107,7 @@ export class FirstLevelManager {
             onLeverPlatform: {x: 80, y: 555},
             afterLeverPlatform: {x: 212, y: 413},
             onFirstButton: {x: 359, y: 413},
-            beforeButtonPlatform: {x: 1140, y: 479},
+            beforeButtonPlatform: {x: 1150, y: 479},
             onButtonPlatformLowered: {x: 1220, y: 448},
             onButtonPlatformLifted: {x: 1220, y: 340},
             onSecondButton: {x: 1031, y: 299},
@@ -151,7 +151,7 @@ export class FirstLevelManager {
         if (nearLocation(this.fireboy.position, this.coordinates.beforeLeverPlatform)){
             this.fireCheckpoints.beforeLeverPlatform = true;
         }
-        if (nearLocation(this.fireboy.position, this.coordinates.onLeverPlatform)){
+        if (nearLocation(this.fireboy.position, this.coordinates.onLeverPlatform,30)){
             this.fireCheckpoints.onLeverPlatform = true;
         }
         if (nearLocation(this.fireboy.position, this.coordinates.afterLeverPlatform)){
@@ -160,7 +160,7 @@ export class FirstLevelManager {
         if (nearLocation(this.fireboy.position, this.coordinates.onFirstButton)){
             this.fireCheckpoints.onFirstButton = true;
         }
-        if (nearLocation(this.fireboy.position, this.coordinates.onButtonPlatformLowered)){
+        if (nearLocation(this.fireboy.position, this.coordinates.onButtonPlatformLowered,33)){
             this.fireCheckpoints.onButtonPlatform = true;
         }
         if (nearLocation(this.fireboy.position, this.coordinates.afterCubeDrop)){
@@ -172,7 +172,7 @@ export class FirstLevelManager {
         if (nearLocation(this.fireboy.position, this.coordinates.beforeCubeJump)){
             this.fireCheckpoints.beforeCubeJump = true;
         }
-        if (nearLocation(this.fireboy.position, this.coordinates.onCube)){
+        if (nearLocation(this.fireboy.position, this.coordinates.onCube,35)){
             this.fireCheckpoints.onCube = true;
         }
         if (nearLocation(this.fireboy.position, this.coordinates.afterCubeFire)){
@@ -220,7 +220,9 @@ export class FirstLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.beforeLever) && !this.waterCheckpoints.beforeLever){
             stopMoving(this.watergirl);
             this.waterCheckpoints.beforeLever = true;
-            this.audioManager.playAudio(audioFiles.lever_does);
+            if (!this.yellowLever.pressed){
+                this.audioManager.playAudio(audioFiles.lever_does);
+            }
         }
         if (nearLocation(this.watergirl.position, this.coordinates.beforeLeverPlatform) && !this.waterCheckpoints.beforeLeverPlatform){
             stopMoving(this.watergirl);
@@ -239,7 +241,7 @@ export class FirstLevelManager {
             this.waterCheckpoints.onFirstButton = true;
             this.audioManager.playAudio(audioFiles.water_press_button);
         }
-        if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform) && !this.waterCheckpoints.beforeButtonPlatform){
+        if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform,5) && !this.waterCheckpoints.beforeButtonPlatform){
             stopMoving(this.watergirl);
             this.waterCheckpoints.beforeButtonPlatform = true;
             this.audioManager.playAudio(audioFiles.keep_button_pressed);
@@ -355,7 +357,7 @@ export class FirstLevelManager {
             moveLeft(this.watergirl);
             makeJump(this.watergirl);
         }
-        if (nearLocation(this.watergirl.position, this.coordinates.onCube) && this.fireCheckpoints.afterCubeFire && this.watergirl.isOnBlock){
+        if (nearLocation(this.watergirl.position, this.coordinates.onCube) && (this.fireCheckpoints.afterCubeFire || this.fireCheckpoints.beforeDoors) && this.watergirl.isOnBlock){
             moveLeft(this.watergirl);
             makeJump(this.watergirl);
         }
@@ -372,8 +374,21 @@ export class FirstLevelManager {
         if (this.fireCheckpoints.beforeLeverPlatform && !this.yellowLever.pressed){
             this.audioManager.nextAudioForTimer(audioFiles.lever_important);
         }
-        if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform) && !this.secondPurpleButton.pressed){
+        if (nearLocation(this.watergirl.position, this.coordinates.beforeButtonPlatform) && (!this.secondPurpleButton.pressed || !this.waterCheckpoints.onButtonPlatform)){
             this.audioManager.nextAudioForTimer(audioFiles.press_button);
+        }
+        //dont play next "lever is important" audio if lever is pressed
+        if (this.audioManager.nextAudio && this.audioManager.nextAudio.includes(audioFiles.lever_important) && this.yellowLever.pressed){
+            this.audioManager.nextAudio = null;
+        }
+        //dont play next "press button" audio if watergirl is already on platform
+        if (this.audioManager.nextAudio && this.audioManager.nextAudio.includes(audioFiles.press_button) && this.waterCheckpoints.onButtonPlatform){
+            this.audioManager.nextAudio = null;
+        }
+        //stop playing "wonder what that level does" if lever is pressed
+        if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.lever_does) && this.yellowLever.pressed){
+            //play you got it audio if they just pulled the lever
+            this.audioManager.stopAudio(true);
         }
     }
 
