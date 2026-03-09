@@ -3,7 +3,9 @@ import {
     moveRight,
     moveLeft,
     stopMoving,
-    makeJump
+    makeJump,
+    isMovingRight,
+    isMovingLeft
 } from "./helperFunctions.js";
 
 let audioFiles = {
@@ -337,9 +339,9 @@ export class SixthLevelManager {
             this.waterCheckpoints.bothBallsStuck = true;
             console.log("tried to play ball_stuck.wav");
         }
-        if ((nearLocation(this.fireboy.position, this.coordinates.leftBallStart) ||
-             nearLocation(this.fireboy.position, this.coordinates.middleBallStart) ||
-             nearLocation(this.fireboy.position, this.coordinates.rightBallStart)) &&
+        if (((nearLocation(this.fireboy.position, this.coordinates.leftBallStart, 60) && isMovingRight(this.fireboy)) ||
+             (nearLocation(this.fireboy.position, this.coordinates.middleBallStart) && isMovingLeft(this.fireboy)) ||
+             (nearLocation(this.fireboy.position, this.coordinates.rightBallStart, 40) && isMovingRight(this.fireboy))) &&
              this.waterCheckpoints.dropAfterLeftBall){
             
             this.audioManager.playAudio(audioFiles.dont_fit);

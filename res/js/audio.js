@@ -26,7 +26,9 @@ class AudioManager {
         this.nextAudio = null;
         this.audioInterval = null;
         this.timedAudioDelay = 7;
-        this.timer = 0
+        this.timer = 0;
+
+        //this.timeToWait = 5;
     }
 
     resetAudioTimer(){
@@ -58,6 +60,16 @@ class AudioManager {
             this.currentSrc = audioSrc;
 
             this.audio.onended = () => {
+
+                //setting a universal delay for every time play audio is called
+                //const currTimer = this.timer;
+                //this.audioInterval = setInterval(() => {
+                    //this.timer++;
+                    //if (this.timer - currTimer >= this.timeToWait){
+                        //clearInterval(this.audioInterval);
+                    //}
+                //}, 1000);
+
                 this.isPlaying = false;
                 this.currentSrc = null;
 

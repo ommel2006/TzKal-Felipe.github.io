@@ -29,6 +29,14 @@ function makeJump(player){
     }, 300);
 }
 
+function isMovingRight(player){
+    return player.keys.pressed.right;
+}
+
+function isMovingLeft(player){
+    return player.keys.pressed.left;
+}
+
 function buildAudioPath(audiofile, voice_type){
     return `res/js/audio/${voice_type}/${audiofile}`
 }
@@ -89,5 +97,7 @@ export {
     buildAudioPath,
     isNearGameObject,
     isNearOppositeElementPond,
-    createCheckpoint
+    createCheckpoint,
+    isMovingRight,
+    isMovingLeft
 };

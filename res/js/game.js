@@ -689,11 +689,12 @@ function playGame() {
         if (!menuActive) {
             if (checkButtonCollision(mousePos, pauseButton)) {
                 pauseGame = true;
-                allPlayers.forEach((player) => {
+                //allPlayers.forEach((player) => {
+                    let player = allPlayers[fireboy];
                     for (const key in player.keys.pressed) {
                         player.keys.pressed[key] = false;
                     }
-                });
+                //});
                 pausedStartTime = Date.now();
             }
             return;
