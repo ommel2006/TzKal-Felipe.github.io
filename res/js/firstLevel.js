@@ -387,8 +387,8 @@ export class FirstLevelManager {
         }
         //stop playing "wonder what that level does" if lever is pressed
         if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.lever_does) && this.yellowLever.pressed){
-            //play you got it audio if they just pulled the lever
-            this.audioManager.stopAudio(true);
+            //play you got it audio if they just pulled the lever (if stopAudio() param = true)
+            this.audioManager.stopAudio();
         }
     }
 
