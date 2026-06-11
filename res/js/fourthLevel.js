@@ -96,6 +96,7 @@ export class FourthLevelManager {
 
     markFireboyCheckpoints(){
         if (nearLocation(this.fireboy.position, this.coordinates.fireDoor) && !this.fireCheckpoints.fireDoor){
+            //this.audioManager.playAudioPA(audioFiles.world_record, "greater_acknowledgement");
             this.audioManager.playAudio(audioFiles.world_record);
             this.fireCheckpoints.fireDoor = true;
         }
@@ -160,6 +161,8 @@ export class FourthLevelManager {
     controlWatergirlMovement(){
         if (nearLocation(this.watergirl.position, this.coordinates.waterStart) && this.blueLever.pressed){
             moveRight(this.watergirl);
+            //just half or the audio should be PA ("nice job"), rest should be normal
+            //this.audioManager.playAudioPA(audioFiles.same_red_lever, "small_acknowledgement");
             this.audioManager.playAudio(audioFiles.same_red_lever);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterFirstWaterDrop)){

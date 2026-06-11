@@ -256,7 +256,9 @@ export class SixthLevelManager {
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterDrop4)){
             moveRight(this.watergirl);
-            this.audioManager.playAudio(audioFiles.push_blue_button);
+            if (!this.blueButton.pressed){
+                this.audioManager.playAudio(audioFiles.push_blue_button);
+            }
         }
         if (nearLocation(this.watergirl.position, this.coordinates.belowLeverPlatform) &&
             nearLocation(this.purpleButton.ramp.position, this.purpleButton.ramp.finalPosition, undefined, 10) && 
@@ -283,6 +285,7 @@ export class SixthLevelManager {
             this.waterCheckpoints.afterBlueBarrier = true;
         }
         if (nearLocation(this.watergirl.position, this.coordinates.diamond)){
+            //this.audioManager.playAudioPA(audioFiles.got_diamond, "mid_acknowledgement");
             this.audioManager.playAudio(audioFiles.got_diamond);
             moveRight(this.watergirl);
         }
@@ -345,6 +348,10 @@ export class SixthLevelManager {
              this.waterCheckpoints.dropAfterLeftBall){
             
             this.audioManager.playAudio(audioFiles.dont_fit);
+        }
+        //stop saying press blue button if already pressed
+        if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.push_blue_button) && this.blueButton.pressed){
+            this.audioManager.stopAudio();
         }
     }
 }

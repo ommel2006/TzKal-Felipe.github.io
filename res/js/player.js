@@ -599,8 +599,38 @@ export class Player extends Sprite {
                             }
                         }
                         //player sliding
-                        else if (this.sliding.left) this.position.x--;
-                        else if (this.sliding.right) this.position.x++;
+                        else if (this.sliding.left) {
+                            if (
+                                this.hitbox.position.y + this.hitbox.height - this.hitbox.legs.height >=
+                                    block.hitbox.position.y &&
+                                this.hitbox.position.y <= block.hitbox.position.y &&
+                                !this.sliding.left &&
+                                !this.sliding.right
+                            ) {
+                                const offset = this.hitbox.position.x - this.position.x;
+                                this.position.x =
+                                    block.hitbox.position.x + block.hitbox.width - offset + 0.01;
+                                break;
+                            }else {
+                                this.position.x--;
+                            }
+                        }
+                        else if (this.sliding.right) {
+                            if (
+                                this.hitbox.position.y + this.hitbox.height - this.hitbox.legs.height >=
+                                    block.hitbox.position.y &&
+                                this.hitbox.position.y <= block.hitbox.position.y &&
+                                !this.sliding.left &&
+                                !this.sliding.right
+                            ) {
+                                const offset =
+                                    this.hitbox.position.x - this.position.x + this.hitbox.width;
+                                this.position.x = block.hitbox.position.x - offset - 0.01;
+                                break;
+                            }else {
+                                this.position.x++;
+                            }
+                        }
                         //legs collision
                         else if (
                             this.hitbox.legs.position.y + this.hitbox.legs.height >=

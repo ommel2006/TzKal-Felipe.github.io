@@ -41,6 +41,10 @@ function buildAudioPath(audiofile, voice_type){
     return `res/js/audio/${voice_type}/${audiofile}`
 }
 
+function buildAudioPathPA(audiofile, voice_type, type){
+    return `res/js/audio/${voice_type}/pa/${type}/${audiofile}`
+}
+
 function isNearGameObject(player, objects, thresholdX = 100, thresholdY = 70){
     objects.forEach((object) => {
         const withinX = Math.abs(player.position.x - object.position.x) <= thresholdX;
@@ -95,6 +99,7 @@ export {
     stopMoving,
     makeJump,
     buildAudioPath,
+    buildAudioPathPA,
     isNearGameObject,
     isNearOppositeElementPond,
     createCheckpoint,

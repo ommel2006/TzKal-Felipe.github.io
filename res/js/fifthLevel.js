@@ -22,6 +22,7 @@ let audioFiles = {
     unlocked_door: "unlocked_door.wav",
     thanks_door: "thanks_door.wav",
     excellent: "excellent.wav",
+    lift_platform: "lift_platform.wav",
 };
 
 export class FifthLevelManager {
@@ -257,11 +258,12 @@ export class FifthLevelManager {
 
     checkForLevelStateActions(){
         if (nearLocation(this.watergirl.position, this.coordinates.beforeWhitePlatform) && this.fireCheckpoints.toBalls && !this.waterCheckpoints.pushBalls &&
-           !this.whiteButton.pressed){
+           (nearLocation(this.lowerBall.position, this.coordinates.lowerBall) && nearLocation(this.upperBall.position, this.coordinates.upperBall))){
             this.audioManager.playAudio(audioFiles.push_balls);
             this.waterCheckpoints.pushBalls = true;
         }
         if (this.whiteButton.pressed && this.fireCheckpoints.toBalls && !this.waterCheckpoints.pathUnlocked){
+            //this.audioManager.playAudioPA(audioFiles.come_down, "mid_acknowledgement");
             this.audioManager.playAudio(audioFiles.come_down);
             this.waterCheckpoints.pathUnlocked = true;
         }
@@ -279,6 +281,7 @@ export class FifthLevelManager {
         }
         if (nearLocation(this.watergirl.position, this.coordinates.waterDoor) &&
            nearLocation(this.fireboy.position, this.coordinates.fireDoor) && !this.waterCheckpoints.end){
+            //this.audioManager.playAudioPA(audioFiles.excellent, "greater_acknowledgement");
             this.audioManager.playAudio(audioFiles.excellent);
             this.waterCheckpoints.end = true;
         }

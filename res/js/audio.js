@@ -1,4 +1,7 @@
-import { buildAudioPath } from "./helperFunctions.js";
+import { 
+    buildAudioPath, 
+    buildAudioPathPA 
+} from "./helperFunctions.js";
 
 let voice_type = "original";
 let audioEnabled = true;
@@ -69,6 +72,46 @@ class AudioManager {
                         //clearInterval(this.audioInterval);
                     //}
                 //}, 1000);
+
+                this.isPlaying = false;
+                this.currentSrc = null;
+
+                if (this.queue){
+                    const nextAudio = this.queue;
+                    this.queue = null;
+                    this.playAudio(nextAudio);
+                }
+            };
+        }
+
+        this.resetAudioTimer();
+    }
+
+    playAudioPA(audioSrc, type, forgetNext=true){
+        if (!audioSrc.startsWith("res/js")){
+            audioSrc = buildAudioPathPA(audioSrc, voice_type, type);
+        }
+
+         if (forgetNext){
+            this.nextAudio = null;
+        }
+
+        if (audioSrc === this.currentSrc || audioSrc === this.queue || !audioEnabled){
+            return;
+        }
+        
+        if (this.isPlaying){
+            this.queue = audioSrc;
+            //this.stopAudio();
+            //this.playAudio(audioSrc);
+        } else {
+            this.audio.src = audioSrc;
+            this.audio.load();
+            this.audio.play();
+            this.isPlaying = true;
+            this.currentSrc = audioSrc;
+
+            this.audio.onended = () => {
 
                 this.isPlaying = false;
                 this.currentSrc = null;
