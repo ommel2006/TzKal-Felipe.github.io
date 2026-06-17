@@ -100,6 +100,7 @@ export class Player extends Sprite {
         this.isOnBlock = false;
         this.sliding.right = false;
         this.sliding.left = false;
+
         this.rampBlocked = false;
         this.verticalCollision(this.collisionBlocks);
 
@@ -114,6 +115,7 @@ export class Player extends Sprite {
             x: this.position.x + 37,
             y: this.position.y + 72,
         };
+
     }
     changeSprite(name) {
         if (name != this.currentAnimation) {
@@ -217,6 +219,61 @@ export class Player extends Sprite {
         // this.velocity.y += 0.08;
         this.position.y += this.velocity.y;
     }
+
+    isActuallySlidingLeft(blocks) {
+        for (let i = 0; i < blocks.length; i++) {
+            const block = blocks[i];
+            if (
+                this.hitbox.position.x <= block.hitbox.position.x + block.hitbox.width &&
+                this.hitbox.position.x + this.hitbox.width >= block.hitbox.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= block.hitbox.position.y + 1 &&
+                this.hitbox.position.y <= block.hitbox.position.y + block.hitbox.height
+            ){
+                if (block.shape == "triangle" && block.direction.y == "up" && this.isOnBlock == true) {
+                    if (block.direction.x == "right" && this.velocity.x == 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    isActuallySlidingRight(blocks) {
+        for (let i = 0; i < blocks.length; i++) {
+            const block = blocks[i];
+            if (
+                this.hitbox.position.x <= block.hitbox.position.x + block.hitbox.width &&
+                this.hitbox.position.x + this.hitbox.width >= block.hitbox.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= block.hitbox.position.y + 1 &&
+                this.hitbox.position.y <= block.hitbox.position.y + block.hitbox.height
+            ){
+                if (block.shape == "triangle" && block.direction.y == "up" && this.isOnBlock == true) {
+                    if (block.direction.x == "left" && this.velocity.x == 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    assetCollision(assets) {
+        for (let i = 0; i < assets.length; i++) {
+            const asset = assets[i];
+            if (
+                this.hitbox.position.x <= asset.hitbox.position.x + asset.hitbox.width &&
+                this.hitbox.position.x + this.hitbox.width >= asset.hitbox.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= asset.hitbox.position.y &&
+                this.hitbox.position.y <= asset.hitbox.position.y + asset.hitbox.height &&
+                asset.direction.x != "up"
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     horizontalCollision(blocks) {
         for (let i = 0; i < blocks.length; i++) {
             const block = blocks[i];
@@ -298,14 +355,18 @@ export class Player extends Sprite {
                             }
                         }
                         //player going to left
-                        if (this.velocity.x < 0 || moveTo == "right") {
+                        if (this.velocity.x < 0 || moveTo == "right" 
+                            || this.isActuallySlidingRight(this.collisionBlocks)
+                        ) {
                             const offset = this.hitbox.position.x - this.position.x;
                             this.position.x =
                                 block.hitbox.position.x + block.hitbox.width - offset + 0.01;
                             break;
                         }
                         //player going to right
-                        else if (this.velocity.x > 0 || moveTo == "left") {
+                        else if (this.velocity.x > 0 || moveTo == "left" 
+                            || this.isActuallySlidingLeft(this.collisionBlocks)
+                        ) {
                             const offset =
                                 this.hitbox.position.x - this.position.x + this.hitbox.width;
                             this.position.x = block.hitbox.position.x - offset - 0.01;
@@ -599,38 +660,8 @@ export class Player extends Sprite {
                             }
                         }
                         //player sliding
-                        else if (this.sliding.left) {
-                            if (
-                                this.hitbox.position.y + this.hitbox.height - this.hitbox.legs.height >=
-                                    block.hitbox.position.y &&
-                                this.hitbox.position.y <= block.hitbox.position.y &&
-                                !this.sliding.left &&
-                                !this.sliding.right
-                            ) {
-                                const offset = this.hitbox.position.x - this.position.x;
-                                this.position.x =
-                                    block.hitbox.position.x + block.hitbox.width - offset + 0.01;
-                                break;
-                            }else {
-                                this.position.x--;
-                            }
-                        }
-                        else if (this.sliding.right) {
-                            if (
-                                this.hitbox.position.y + this.hitbox.height - this.hitbox.legs.height >=
-                                    block.hitbox.position.y &&
-                                this.hitbox.position.y <= block.hitbox.position.y &&
-                                !this.sliding.left &&
-                                !this.sliding.right
-                            ) {
-                                const offset =
-                                    this.hitbox.position.x - this.position.x + this.hitbox.width;
-                                this.position.x = block.hitbox.position.x - offset - 0.01;
-                                break;
-                            }else {
-                                this.position.x++;
-                            }
-                        }
+                        else if (this.sliding.left) this.position.x--;
+                        else if (this.sliding.right) this.position.x++;
                         //legs collision
                         else if (
                             this.hitbox.legs.position.y + this.hitbox.legs.height >=
@@ -909,12 +940,14 @@ export class Player extends Sprite {
                     }
                     //check collision for triangle up left
                     else if (
+                        //!this.assetCollision(this.allAssets) &&
                         block.direction.y == "up" &&
                         this.hitbox.legs.position.x + this.hitbox.legs.width >
                             block.hitbox.position.x &&
                         this.hitbox.legs.position.x + this.hitbox.legs.width <
                             block.hitbox.position.x + block.hitbox.width
                     ) {
+
                         let xPos = this.calculateXPos(block);
 
                         this.triangleChangePosition(block, xPos);
@@ -1054,6 +1087,7 @@ export class Player extends Sprite {
                     }
                     // check collision for triangle up right
                     else if (
+                        //!this.assetCollision(this.allAssets) &&
                         block.direction.y == "up" &&
                         this.hitbox.legs.position.x >= block.hitbox.position.x &&
                         this.hitbox.legs.position.x < block.hitbox.position.x + block.hitbox.width
