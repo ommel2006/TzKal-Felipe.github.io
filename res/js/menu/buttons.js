@@ -80,7 +80,6 @@ class MenuButton {
         ctx.font = `${this.fontSize}px Cinzel`;
         ctx.fillStyle = "yellow";
         ctx.fillText(this.text, this.position.x + this.textGap, this.position.y + this.fontSize);
-        console.log(`Button "${this.text}" drawn`);
     }
     scaleDown() {
         ctx.fillStyle = this.outerColor;
@@ -406,7 +405,6 @@ let menuButtons = {
                 changeVoice("original");
                 setAudioEnabled(true);
                 setPAEnabled(true);
-                console.log("PA categories enabled");
             },
         }),
         author: new MenuButton({
