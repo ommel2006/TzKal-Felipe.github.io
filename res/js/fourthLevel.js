@@ -97,7 +97,11 @@ export class FourthLevelManager {
     markFireboyCheckpoints(){
         if (nearLocation(this.fireboy.position, this.coordinates.fireDoor) && !this.fireCheckpoints.fireDoor){
             //this.audioManager.playAudioPA(audioFiles.world_record, "greater_acknowledgement");
-            this.audioManager.playAudio(audioFiles.world_record);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.world_record, true, "greater_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.world_record);
+            }
             this.fireCheckpoints.fireDoor = true;
         }
     }
@@ -163,7 +167,11 @@ export class FourthLevelManager {
             moveRight(this.watergirl);
             //just half or the audio should be PA ("nice job"), rest should be normal
             //this.audioManager.playAudioPA(audioFiles.same_red_lever, "small_acknowledgement");
-            this.audioManager.playAudio(audioFiles.same_red_lever);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.same_red_lever, true, "small_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.same_red_lever);
+            }
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterFirstWaterDrop)){
             moveLeft(this.watergirl);

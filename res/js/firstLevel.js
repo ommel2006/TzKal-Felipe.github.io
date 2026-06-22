@@ -285,7 +285,11 @@ export class FirstLevelManager {
             stopMoving(this.watergirl);
             this.waterCheckpoints.atExit = true;
             //this.audioManager.playAudioPA(audioFiles.teamwork, "greater_acknowledgement");
-            this.audioManager.playAudio(audioFiles.teamwork);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.teamwork, true, "greater_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.teamwork);
+            }
         }
     }
 
@@ -293,7 +297,11 @@ export class FirstLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.startWater) && this.fireCheckpoints.beforeEncloseExitFire){
             moveRight(this.watergirl);
             //this.audioManager.playAudioPA(audioFiles.you_got_it, "small_acknowledgement");
-            this.audioManager.playAudio(audioFiles.you_got_it);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.you_got_it, true, "small_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.you_got_it);
+            }
         }
         if (nearLocation(this.watergirl.position, this.coordinates.beforeEncloseExitWater) && this.fireCheckpoints.beforeFirePool){
             moveRight(this.watergirl);
@@ -305,7 +313,11 @@ export class FirstLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.betweenPools) && this.fireCheckpoints.afterWaterPool){
             moveRight(this.watergirl);
             //this.audioManager.playAudioPA(audioFiles.nice_jump, "small_acknowledgement");
-            this.audioManager.playAudio(audioFiles.nice_jump);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.nice_jump, true, "small_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.nice_jump);
+            }
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterWaterPool) && this.fireCheckpoints.firstHigherPlatform && this.watergirl.isOnBlock){
             moveRight(this.watergirl);
@@ -335,7 +347,11 @@ export class FirstLevelManager {
             moveRight(this.watergirl);
             makeJump(this.watergirl);
             //this.audioManager.playAudioPA(audioFiles.onwards, "mid_acknowledgement");
-            this.audioManager.playAudio(audioFiles.doing_great);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.onwards, true, "mid_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.onwards);
+            }
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterLeverPlatform) && this.fireCheckpoints.onFirstButton){
             moveRight(this.watergirl);

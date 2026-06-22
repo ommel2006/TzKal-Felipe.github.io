@@ -286,7 +286,11 @@ export class SixthLevelManager {
         }
         if (nearLocation(this.watergirl.position, this.coordinates.diamond)){
             //this.audioManager.playAudioPA(audioFiles.got_diamond, "mid_acknowledgement");
-            this.audioManager.playAudio(audioFiles.got_diamond);
+            if (paEnabled){
+                this.audioManager.playAudio(audioFiles.got_diamond, true, "mid_acknowledgement");
+            } else {
+                this.audioManager.playAudio(audioFiles.got_diamond);
+            }
             moveRight(this.watergirl);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterDiamondRetrieved) &&

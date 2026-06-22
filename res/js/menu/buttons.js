@@ -1,7 +1,7 @@
 import { Sprite } from "../sprite.js";
 import { canvas, ctx, setContinueAnimation, setEndGame, setMenuActive } from "../helpers.js";
 import { drawMenu, resetProgress, unlockAllDiamonds } from "./menus.js";
-import { changeVoice, setAudioEnabled } from "../audio.js";
+import { changeVoice, setAudioEnabled, setPAEnabled } from "../audio.js";
 
 //check collision for button in menu
 function checkButtonCollision(pos, button) {
@@ -22,7 +22,8 @@ const TEXT_GAP = {
     8: 30,
     10: 20,
     11: 20,
-    14: 20,
+    13: 20,
+    14: 20
 };
 
 class MenuButton {
@@ -79,6 +80,7 @@ class MenuButton {
         ctx.font = `${this.fontSize}px Cinzel`;
         ctx.fillStyle = "yellow";
         ctx.fillText(this.text, this.position.x + this.textGap, this.position.y + this.fontSize);
+        console.log(`Button "${this.text}" drawn`);
     }
     scaleDown() {
         ctx.fillStyle = this.outerColor;
@@ -385,6 +387,26 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("original");
                 setAudioEnabled(true);
+            },
+        }),
+        originalWithPa: new MenuButton({
+            position: {
+                x: canvas.width - 490,
+                y: canvas.height * 0.60,
+            },
+            width: 430,
+            height: canvas.height * 0.065,
+            yOffset: canvas.height * 0.43,
+            text: "full audio PA",
+            mainColor: "#5c4614",
+            borderColor: "#5c4614",
+            outerColor: "#5c4614",
+            fontSize: 50,
+            runCode: () => {
+                changeVoice("original");
+                setAudioEnabled(true);
+                setPAEnabled(true);
+                console.log("PA categories enabled");
             },
         }),
         author: new MenuButton({
