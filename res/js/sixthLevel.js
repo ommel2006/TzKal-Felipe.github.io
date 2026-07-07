@@ -285,12 +285,8 @@ export class SixthLevelManager {
             this.waterCheckpoints.afterBlueBarrier = true;
         }
         if (nearLocation(this.watergirl.position, this.coordinates.diamond)){
-            //this.audioManager.playAudioPA(audioFiles.got_diamond, "mid_acknowledgement");
-            if (paEnabled){
-                this.audioManager.playAudio(audioFiles.got_diamond, true, "mid_acknowledgement");
-            } else {
-                this.audioManager.playAudio(audioFiles.got_diamond);
-            }
+            //this.audioManager.playAudioPA(audioFiles.got_diamond, "mid_acknowledgment");
+            this.audioManager.playAudio(audioFiles.got_diamond, true, "mid_acknowledgment");
             moveRight(this.watergirl);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterDiamondRetrieved) &&

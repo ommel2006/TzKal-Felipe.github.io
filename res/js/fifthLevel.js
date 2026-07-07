@@ -263,12 +263,8 @@ export class FifthLevelManager {
             this.waterCheckpoints.pushBalls = true;
         }
         if (this.whiteButton.pressed && this.fireCheckpoints.toBalls && !this.waterCheckpoints.pathUnlocked){
-            //this.audioManager.playAudioPA(audioFiles.come_down, "mid_acknowledgement");
-            if (paEnabled){
-                this.audioManager.playAudio(audioFiles.come_down, true, "mid_acknowledgement");
-            } else {
-                this.audioManager.playAudio(audioFiles.come_down);
-            }
+            //this.audioManager.playAudioPA(audioFiles.come_down, "mid_acknowledgment");
+            this.audioManager.playAudio(audioFiles.come_down, true, "mid_acknowledgment");
             this.waterCheckpoints.pathUnlocked = true;
         }
         if (nearLocation(this.whiteButton.ramp.position, this.whiteButton.ramp.finalPosition) && this.fireCheckpoints.dropped && !this.waterCheckpoints.pathUnlocked){
@@ -285,12 +281,8 @@ export class FifthLevelManager {
         }
         if (nearLocation(this.watergirl.position, this.coordinates.waterDoor) &&
            nearLocation(this.fireboy.position, this.coordinates.fireDoor) && !this.waterCheckpoints.end){
-            //this.audioManager.playAudioPA(audioFiles.excellent, "greater_acknowledgement");
-            if (paEnabled){
-                this.audioManager.playAudio(audioFiles.excellent, true, "greater_acknowledgement");
-            } else {
-                this.audioManager.playAudio(audioFiles.excellent);
-            }
+            //this.audioManager.playAudioPA(audioFiles.excellent, "greater_acknowledgment");
+            this.audioManager.playAudio(audioFiles.excellent, true, "greater_acknowledgment");
             this.waterCheckpoints.end = true;
         }
     }

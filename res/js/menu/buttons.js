@@ -260,6 +260,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("original");
                 setAudioEnabled(false);
+                setPAEnabled(false);
             },
         }),
         hummed: new MenuButton({
@@ -278,6 +279,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("hummed");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         monotoneSynthesizer: new MenuButton({
@@ -296,6 +298,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("monotoneSynthesizer");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         vocoded: new MenuButton({
@@ -314,6 +317,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("vocoded");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         nonContingentHuman: new MenuButton({
@@ -332,6 +336,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("nonContingentHuman");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         lowPassFiltered: new MenuButton({
@@ -350,6 +355,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("lowPassFiltered");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         humanReadSpeech: new MenuButton({
@@ -368,6 +374,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("humanReadSpeech");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         original: new MenuButton({
@@ -386,6 +393,7 @@ let menuButtons = {
             runCode: () => {
                 changeVoice("original");
                 setAudioEnabled(true);
+                setPAEnabled(false);
             },
         }),
         originalWithPa: new MenuButton({
@@ -405,6 +413,25 @@ let menuButtons = {
                 changeVoice("original");
                 setAudioEnabled(true);
                 setPAEnabled(true);
+            },
+        }),
+        originalWithPaRandom: new MenuButton({
+            position: {
+                x: canvas.width - 490,
+                y: canvas.height * 0.70,
+            },
+            width: 430,
+            height: canvas.height * 0.065,
+            yOffset: canvas.height * 0.43,
+            text: "full PA random",
+            mainColor: "#5c4614",
+            borderColor: "#5c4614",
+            outerColor: "#5c4614",
+            fontSize: 50,
+            runCode: () => {
+                changeVoice("original");
+                setAudioEnabled(true);
+                setPAEnabled("random");
             },
         }),
         author: new MenuButton({

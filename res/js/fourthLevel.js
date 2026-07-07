@@ -96,12 +96,8 @@ export class FourthLevelManager {
 
     markFireboyCheckpoints(){
         if (nearLocation(this.fireboy.position, this.coordinates.fireDoor) && !this.fireCheckpoints.fireDoor){
-            //this.audioManager.playAudioPA(audioFiles.world_record, "greater_acknowledgement");
-            if (paEnabled){
-                this.audioManager.playAudio(audioFiles.world_record, true, "greater_acknowledgement");
-            } else {
-                this.audioManager.playAudio(audioFiles.world_record);
-            }
+            //this.audioManager.playAudioPA(audioFiles.world_record, "greater_acknowledgment");
+            this.audioManager.playAudio(audioFiles.world_record, true, "greater_acknowledgment");
             this.fireCheckpoints.fireDoor = true;
         }
     }
@@ -166,12 +162,8 @@ export class FourthLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.waterStart) && this.blueLever.pressed){
             moveRight(this.watergirl);
             //just half or the audio should be PA ("nice job"), rest should be normal
-            //this.audioManager.playAudioPA(audioFiles.same_red_lever, "small_acknowledgement");
-            if (paEnabled){
-                this.audioManager.playAudio(audioFiles.same_red_lever, true, "small_acknowledgement");
-            } else {
-                this.audioManager.playAudio(audioFiles.same_red_lever);
-            }
+            //this.audioManager.playAudioPA(audioFiles.same_red_lever, "small_acknowledgment");
+            this.audioManager.playAudio(audioFiles.same_red_lever, true, "mid_acknowledgment");
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterFirstWaterDrop)){
             moveLeft(this.watergirl);

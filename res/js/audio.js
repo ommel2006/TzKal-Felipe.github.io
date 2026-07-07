@@ -45,7 +45,12 @@ class AudioManager {
 
     playAudio(audioSrc, forgetNext=true, paType=null){
         if (!audioSrc.startsWith("res/js")){
-            if (paType){
+            if (paType && paEnabled){
+                if (paEnabled === "random"){
+                    const paTypes = ["small_acknowledgment", "mid_acknowledgment", "greater_acknowledgment"];
+                    const randomIndex = Math.floor(Math.random() * paTypes.length);
+                    paType = paTypes[randomIndex];
+                }
                 audioSrc = buildAudioPathPA(audioSrc, voice_type, paType);
             } else {
                 audioSrc = buildAudioPath(audioSrc, voice_type);
