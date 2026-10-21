@@ -100,7 +100,6 @@ export class Player extends Sprite {
         this.isOnBlock = false;
         this.sliding.right = false;
         this.sliding.left = false;
-
         this.rampBlocked = false;
         this.verticalCollision(this.collisionBlocks);
 
@@ -115,7 +114,6 @@ export class Player extends Sprite {
             x: this.position.x + 37,
             y: this.position.y + 72,
         };
-
     }
     changeSprite(name) {
         if (name != this.currentAnimation) {
@@ -355,18 +353,14 @@ export class Player extends Sprite {
                             }
                         }
                         //player going to left
-                        if (this.velocity.x < 0 || moveTo == "right" 
-                            || this.isActuallySlidingRight(this.collisionBlocks)
-                        ) {
+                        if (this.velocity.x < 0 || moveTo == "right" || this.isActuallySlidingRight(this.collisionBlocks)) {
                             const offset = this.hitbox.position.x - this.position.x;
                             this.position.x =
                                 block.hitbox.position.x + block.hitbox.width - offset + 0.01;
                             break;
                         }
                         //player going to right
-                        else if (this.velocity.x > 0 || moveTo == "left" 
-                            || this.isActuallySlidingLeft(this.collisionBlocks)
-                        ) {
+                        else if (this.velocity.x > 0 || moveTo == "left" || this.isActuallySlidingLeft(this.collisionBlocks)) {
                             const offset =
                                 this.hitbox.position.x - this.position.x + this.hitbox.width;
                             this.position.x = block.hitbox.position.x - offset - 0.01;
@@ -940,14 +934,12 @@ export class Player extends Sprite {
                     }
                     //check collision for triangle up left
                     else if (
-                        //!this.assetCollision(this.allAssets) &&
                         block.direction.y == "up" &&
                         this.hitbox.legs.position.x + this.hitbox.legs.width >
                             block.hitbox.position.x &&
                         this.hitbox.legs.position.x + this.hitbox.legs.width <
                             block.hitbox.position.x + block.hitbox.width
                     ) {
-
                         let xPos = this.calculateXPos(block);
 
                         this.triangleChangePosition(block, xPos);
@@ -1087,7 +1079,6 @@ export class Player extends Sprite {
                     }
                     // check collision for triangle up right
                     else if (
-                        //!this.assetCollision(this.allAssets) &&
                         block.direction.y == "up" &&
                         this.hitbox.legs.position.x >= block.hitbox.position.x &&
                         this.hitbox.legs.position.x < block.hitbox.position.x + block.hitbox.width

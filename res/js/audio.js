@@ -1,11 +1,9 @@
 import { 
-    buildAudioPath, 
-    buildAudioPathPA 
+    buildAudioPath
 } from "./helperFunctions.js";
 
 let voice_type = "original";
 let audioEnabled = true;
-let paEnabled = false;
 
 function changeVoice(voice){
     voice_type = voice;
@@ -13,10 +11,6 @@ function changeVoice(voice){
 
 function setAudioEnabled(bool){
     audioEnabled = bool;
-}
-
-function setPAEnabled(bool){
-    paEnabled = bool;
 }
 
 function* audioIterator(audioFiles) {
@@ -43,18 +37,9 @@ class AudioManager {
         this.timer = 0;
     }
 
-    playAudio(audioSrc, forgetNext=true, paType=null){
+    playAudio(audioSrc, forgetNext=true){
         if (!audioSrc.startsWith("res/js")){
-            if (paType && paEnabled){
-                if (paEnabled === "random"){
-                    const paTypes = ["small_acknowledgment", "mid_acknowledgment", "greater_acknowledgment"];
-                    const randomIndex = Math.floor(Math.random() * paTypes.length);
-                    paType = paTypes[randomIndex];
-                }
-                audioSrc = buildAudioPathPA(audioSrc, voice_type, paType);
-            } else {
-                audioSrc = buildAudioPath(audioSrc, voice_type);
-            }
+            audioSrc = buildAudioPath(audioSrc, voice_type);
         }
 
          if (forgetNext){
@@ -151,4 +136,4 @@ class AudioManager {
     }
 }
 
-export{ changeVoice, setAudioEnabled, setPAEnabled, AudioManager };
+export{ changeVoice, setAudioEnabled, AudioManager };

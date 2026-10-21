@@ -166,7 +166,7 @@ export class FirstLevelManager {
         if (nearLocation(this.fireboy.position, this.coordinates.afterCubeDrop)){
             this.fireCheckpoints.afterCubeDrop = true;
         }
-        if (nearLocation(this.fireboy.position, this.coordinates.halfwayCubeSliding, 30)){
+        if (nearLocation(this.fireboy.position, this.coordinates.halfwayCubeSliding)){
             this.fireCheckpoints.halfwayCubeSliding = true;
         }
         if (nearLocation(this.fireboy.position, this.coordinates.beforeCubeJump)){
@@ -284,17 +284,14 @@ export class FirstLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.doorWater) && !this.waterCheckpoints.atExit){
             stopMoving(this.watergirl);
             this.waterCheckpoints.atExit = true;
-            //this.audioManager.playAudioPA(audioFiles.teamwork, "greater_acknowledgment");
-            this.audioManager.playAudio(audioFiles.teamwork, true, "greater_acknowledgment");
-           
+            this.audioManager.playAudio(audioFiles.teamwork);
         }
     }
 
     controlWatergirlMovement(){
         if (nearLocation(this.watergirl.position, this.coordinates.startWater) && this.fireCheckpoints.beforeEncloseExitFire){
             moveRight(this.watergirl);
-            //this.audioManager.playAudioPA(audioFiles.you_got_it, "small_acknowledgment");
-            this.audioManager.playAudio(audioFiles.you_got_it, true, "mid_acknowledgment");
+            this.audioManager.playAudio(audioFiles.you_got_it);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.beforeEncloseExitWater) && this.fireCheckpoints.beforeFirePool){
             moveRight(this.watergirl);
@@ -305,8 +302,7 @@ export class FirstLevelManager {
         }
         if (nearLocation(this.watergirl.position, this.coordinates.betweenPools) && this.fireCheckpoints.afterWaterPool){
             moveRight(this.watergirl);
-            //this.audioManager.playAudioPA(audioFiles.nice_jump, "small_acknowledgment");
-            this.audioManager.playAudio(audioFiles.nice_jump, true, "small_acknowledgment");
+            this.audioManager.playAudio(audioFiles.nice_jump);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterWaterPool) && this.fireCheckpoints.firstHigherPlatform && this.watergirl.isOnBlock){
             moveRight(this.watergirl);
@@ -335,8 +331,7 @@ export class FirstLevelManager {
         if (nearLocation(this.watergirl.position, this.coordinates.onLeverPlatform) && this.fireCheckpoints.afterLeverPlatform && this.watergirl.isOnBlock){
             moveRight(this.watergirl);
             makeJump(this.watergirl);
-            //this.audioManager.playAudioPA(audioFiles.doing_great, "mid_acknowledgment");
-            this.audioManager.playAudio(audioFiles.doing_great, true, "mid_acknowledgment");
+            this.audioManager.playAudio(audioFiles.doing_great);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterLeverPlatform) && this.fireCheckpoints.onFirstButton){
             moveRight(this.watergirl);
@@ -394,10 +389,6 @@ export class FirstLevelManager {
         if (this.audioManager.nextAudio && this.audioManager.nextAudio.includes(audioFiles.press_button) && this.waterCheckpoints.onButtonPlatform){
             this.audioManager.nextAudio = null;
         }
-        //dont play next "keep button pressed" audio if watergirl is already on platform
-        if (this.audioManager.nextAudio && this.audioManager.nextAudio.includes(audioFiles.keep_button_pressed) && this.waterCheckpoints.onButtonPlatform){
-            this.audioManager.nextAudio = null;
-        }
         //stop playing "press button" audio if they just stepped on the button
         if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.press_button) && this.secondPurpleButton.pressed){
             this.audioManager.stopAudio();
@@ -405,10 +396,6 @@ export class FirstLevelManager {
         //stop playing "wonder what that level does" if lever is pressed
         if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.lever_does) && this.yellowLever.pressed){
             //play you got it audio if they just pulled the lever (if stopAudio() param = true)
-            this.audioManager.stopAudio();
-        }
-        //stop playing "keep button pressed" audio if watergirl needs to go up
-        if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.keep_button_pressed) && this.waterCheckpoints.onButtonPlatform){
             this.audioManager.stopAudio();
         }
     }

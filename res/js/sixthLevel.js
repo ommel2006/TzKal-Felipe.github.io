@@ -285,8 +285,8 @@ export class SixthLevelManager {
             this.waterCheckpoints.afterBlueBarrier = true;
         }
         if (nearLocation(this.watergirl.position, this.coordinates.diamond)){
-            //this.audioManager.playAudioPA(audioFiles.got_diamond, "mid_acknowledgment");
-            this.audioManager.playAudio(audioFiles.got_diamond, true, "mid_acknowledgment");
+            //this.audioManager.playAudioPA(audioFiles.got_diamond, "mid_acknowledgement");
+            this.audioManager.playAudio(audioFiles.got_diamond);
             moveRight(this.watergirl);
         }
         if (nearLocation(this.watergirl.position, this.coordinates.afterDiamondRetrieved) &&
