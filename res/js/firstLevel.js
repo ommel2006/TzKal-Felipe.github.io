@@ -389,6 +389,10 @@ export class FirstLevelManager {
         if (this.audioManager.nextAudio && this.audioManager.nextAudio.includes(audioFiles.press_button) && this.waterCheckpoints.onButtonPlatform){
             this.audioManager.nextAudio = null;
         }
+        //dont play next "keep button pressed" audio if watergirl is already on platform
+        if (this.audioManager.nextAudio && this.audioManager.nextAudio.includes(audioFiles.keep_button_pressed) && this.waterCheckpoints.onButtonPlatform){
+            this.audioManager.nextAudio = null;
+        }
         //stop playing "press button" audio if they just stepped on the button
         if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.press_button) && this.secondPurpleButton.pressed){
             this.audioManager.stopAudio();
@@ -396,6 +400,10 @@ export class FirstLevelManager {
         //stop playing "wonder what that level does" if lever is pressed
         if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.lever_does) && this.yellowLever.pressed){
             //play you got it audio if they just pulled the lever (if stopAudio() param = true)
+            this.audioManager.stopAudio();
+        }
+        //stop playing "keep button pressed" audio if watergirl needs to go up
+        if (this.audioManager.currentSrc && this.audioManager.currentSrc.includes(audioFiles.keep_button_pressed) && this.waterCheckpoints.onButtonPlatform){
             this.audioManager.stopAudio();
         }
     }
