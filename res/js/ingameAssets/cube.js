@@ -112,15 +112,15 @@ export class Cube extends Sprite {
                             block.velocity.x -= 1;
                             const offset = this.hitbox.position.x - this.position.x;
                             this.position.x =
-                                block.hitbox.position.x + block.hitbox.width - offset + 0.01;
+                                block.hitbox.position.x - this.hitbox.width - offset - 0.01;
                             break;
                         }
                         //cube going to right
                         else if (this.velocity.x > 0) {
                             block.velocity.x += 1;
-                            const offset =
-                                this.hitbox.position.x - this.position.x + this.hitbox.width;
-                            this.position.x = block.hitbox.position.x - offset - 0.01;
+                            const offset = this.hitbox.position.x - this.position.x;
+                            this.position.x =
+                                block.hitbox.position.x + block.hitbox.width - offset + 0.01;
                             break;
                         }
                     }

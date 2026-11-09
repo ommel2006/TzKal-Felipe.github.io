@@ -272,6 +272,66 @@ export class Player extends Sprite {
         return false;
     }
 
+    resolveCubeSqueeze(cube) {
+        const overlaps = (first, second) =>
+            first.position.x < second.position.x + second.width &&
+            first.position.x + first.width > second.position.x &&
+            first.position.y < second.position.y + second.height &&
+            first.position.y + first.height > second.position.y;
+
+        const wallCheckMargin = 6;
+        const wallCheckHitbox = {
+            position: {
+                x: this.hitbox.position.x - wallCheckMargin,
+                y: this.hitbox.position.y,
+            },
+            width: this.hitbox.width + wallCheckMargin * 2,
+            height: this.hitbox.height,
+        };
+        const wall = this.collisionBlocks.find(
+            (block) => block.shape == "square" && overlaps(wallCheckHitbox, block.hitbox)
+        );
+        if (!wall) return false;
+
+        const playerCenter = this.hitbox.position.x + this.hitbox.width / 2;
+        const cubeCenter = cube.hitbox.position.x + cube.hitbox.width / 2;
+        const preferredSide = Math.sign(cubeCenter - playerCenter) || Math.sign(this.velocity.x) || 1;
+        const hitboxOffsetX = cube.hitbox.position.x - cube.position.x;
+        const cubePositions = [
+            preferredSide < 0
+                ? this.hitbox.position.x - cube.hitbox.width - hitboxOffsetX - 0.01
+                : this.hitbox.position.x + this.hitbox.width - hitboxOffsetX + 0.01,
+            preferredSide < 0
+                ? this.hitbox.position.x + this.hitbox.width - hitboxOffsetX + 0.01
+                : this.hitbox.position.x - cube.hitbox.width - hitboxOffsetX - 0.01,
+        ];
+        const solidBlocks = [...this.collisionBlocks, ...this.allAssets].filter(
+            (block) =>
+                block != cube &&
+                ["square", "ramp", "lever", "cube"].includes(block.shape)
+        );
+
+        for (const cubeX of cubePositions) {
+            const candidateHitbox = {
+                position: { x: cubeX + hitboxOffsetX, y: cube.hitbox.position.y },
+                width: cube.hitbox.width,
+                height: cube.hitbox.height,
+            };
+            if (solidBlocks.some((block) => overlaps(candidateHitbox, block.hitbox))) continue;
+
+            cube.position.x = cubeX;
+            cube.hitbox.position.x = candidateHitbox.position.x;
+            cube.velocity.x = 0;
+
+            const playerHitboxOffsetX = this.hitbox.position.x - this.position.x;
+            this.position.x = this.lastPosition.x - playerHitboxOffsetX;
+            this.velocity.x = 0;
+            return true;
+        }
+
+        return false;
+    }
+
     horizontalCollision(blocks) {
         for (let i = 0; i < blocks.length; i++) {
             const block = blocks[i];
@@ -284,6 +344,10 @@ export class Player extends Sprite {
             ) {
                 //ramp blocked
                 if (this.rampBlocked) {
+                    break;
+                }
+
+                if (block.shape == "cube" && this.resolveCubeSqueeze(block)) {
                     break;
                 }
 
@@ -348,7 +412,7 @@ export class Player extends Sprite {
                         } else if (block.shape == "cube") {
                             if (this.velocity.x > 0) {
                                 block.velocity.x = 1.5;
-                            } else {
+                            } else if (this.velocity.x < 0) {
                                 block.velocity.x = -1.5;
                             }
                         }
@@ -379,7 +443,7 @@ export class Player extends Sprite {
                         if (block.shape == "cube") {
                             if (this.velocity.x > 0) {
                                 block.velocity.x = 1.5;
-                            } else {
+                            } else if (this.velocity.x < 0) {
                                 block.velocity.x = -1.5;
                             }
                         }
